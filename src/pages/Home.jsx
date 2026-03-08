@@ -178,81 +178,88 @@ const Home = () => {
           </div>
         </div>
 
-        {/* REVIEW SECTION */}
+              {/* REVIEW SECTION */}
         <div className="mt-16">
-
           <div className="flex justify-between mb-6">
             <h2 className="text-xl font-bold">REVIEW</h2>
-
             <button className="bg-gray-700 px-4 py-2 rounded">
               VIEW MORE
             </button>
           </div>
 
           <div className="grid grid-cols-4 gap-6">
-
-            <div>
+            {/* Card 1 */}
+            <div className="flex flex-col">
               <div className="relative">
                 <img
                   src="https://images.unsplash.com/photo-1614850715776-a749a85b4144"
-                  className="rounded-lg"
+                  className="rounded-lg w-full h-48 object-cover"
+                  alt="Star Wars Visions"
                 />
                 <span className="absolute top-2 right-2 bg-black px-2 py-1 text-sm">
                   00:15
                 </span>
               </div>
-              <h3 className="mt-3 font-semibold">
+              <h3 className="mt-3 font-semibold line-clamp-2">
                 Star Wars Visions
               </h3>
+              <p className="text-sm text-gray-400 mt-1">2.5K views • 2 days ago</p>
             </div>
 
-            <div>
+            {/* Card 2 */}
+            <div className="flex flex-col">
               <div className="relative">
                 <img
                   src="https://images.unsplash.com/photo-1542751371-adc38448a05e"
-                  className="rounded-lg"
+                  className="rounded-lg w-full h-48 object-cover"
+                  alt="Star Wars Battlefront"
                 />
                 <span className="absolute top-2 right-2 bg-black px-2 py-1 text-sm">
                   00:15
                 </span>
               </div>
-              <h3 className="mt-3 font-semibold">
+              <h3 className="mt-3 font-semibold line-clamp-2">
                 Star Wars Battlefront Reveal Trailer
               </h3>
+              <p className="text-sm text-gray-400 mt-1">3.2K views • 3 days ago</p>
             </div>
 
-            <div>
+            {/* Card 3 - Horizon Zero Dawn */}
+            <div className="flex flex-col">
               <div className="relative">
                 <img
                   src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
-                  className="rounded-lg"
+                  className="rounded-lg w-full h-48 object-cover"
+                  alt="Horizon Zero Dawn"
                 />
                 <span className="absolute top-2 right-2 bg-black px-2 py-1 text-sm">
                   00:15
                 </span>
               </div>
-              <h3 className="mt-3 font-semibold">
+              <h3 className="mt-3 font-semibold line-clamp-2">
                 Horizon Zero Dawn
               </h3>
+              <p className="text-sm text-gray-400 mt-1">4.1K views • 5 days ago</p>
             </div>
 
-            <div>
+            {/* Card 4 */}
+            <div className="flex flex-col">
               <div className="relative">
                 <img
                   src="https://images.unsplash.com/photo-1497032205916-ac775f0649ae"
-                  className="rounded-lg"
+                  className="rounded-lg w-full h-48 object-cover"
+                  alt="Imagine Dragons"
                 />
                 <span className="absolute top-2 right-2 bg-black px-2 py-1 text-sm">
                   00:15
                 </span>
               </div>
-              <h3 className="mt-3 font-semibold">
-                Imagine Dragons
+              <h3 className="mt-3 font-semibold line-clamp-2">
+                Imagine Dragons - New Album Review
               </h3>
+              <p className="text-sm text-gray-400 mt-1">1.8K views • 1 week ago</p>
             </div>
-
           </div>
-
         </div>
 
         {/* SHORTS SECTION */}
