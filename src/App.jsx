@@ -7,9 +7,6 @@ function App() {
     <Routes>
       <Route path="/" element={<Root />}>
         <Route index element={<Home />} />
-   
-      
-      
       </Route>
     </Routes>
   );
