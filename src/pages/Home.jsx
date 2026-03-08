@@ -8,18 +8,12 @@ import {
   FaUser,
   FaMapMarkerAlt,
   FaEdit,
-  FaPlay,
-  FaClock,
-  FaEye,
-  FaHeart
 } from "react-icons/fa";
 import { ThemeContext } from "../context/ThemeContext";
-import { Link } from "react-router-dom";
 
 const Home = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const [isMobile, setIsMobile] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
     const checkMobile = () => {
@@ -32,232 +26,190 @@ const Home = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // মোবাইলের জন্য ক্যাটাগরি স্ক্রোল
-  const categories = [
-    "All", "Gaming", "Music", "Travel", "Sports", "News", "Live", "Podcasts"
-  ];
-
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
+    <div className={`flex min-h-screen transition-colors duration-300 ${
       isDarkMode ? 'bg-[#0f0f0f] text-white' : 'bg-gray-50 text-gray-900'
     }`}>
 
-      {/* মোবাইলের জন্য ক্যাটাগরি স্ক্রোল বার */}
-      {isMobile && (
-        <div className="sticky top-0 z-40 bg-inherit py-3 px-4 overflow-x-auto scrollbar-hide border-b border-gray-200 dark:border-gray-800">
-          <div className="flex space-x-3">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat.toLowerCase())}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
-                  activeCategory === cat.toLowerCase()
-                    ? 'bg-red-600 text-white'
-                    : isDarkMode 
-                      ? 'bg-[#1e1e1e] text-gray-300 hover:bg-[#2e2e2e]' 
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* সাইডবার - ডেস্কটপে দেখাবে */}
+      {/* SIDEBAR - Sticky - শুধু মোবাইলে লুকানো হবে */}
       {!isMobile && (
-        <div className={`fixed left-0 top-0 w-20 ${isDarkMode ? 'bg-[#111] text-gray-400' : 'bg-white text-gray-600 border-r border-gray-200'} flex flex-col items-center py-6 space-y-8 h-screen transition-colors duration-300 z-30`}>
-          <FaHome size={20} className="hover:text-red-500 cursor-pointer transition-colors" />
-          <FaGlobe size={20} className="hover:text-red-500 cursor-pointer transition-colors" />
-          <FaVideo size={20} className="hover:text-red-500 cursor-pointer transition-colors" />
-          <FaStar size={20} className="hover:text-red-500 cursor-pointer transition-colors" />
-          <FaThumbsUp size={20} className="hover:text-red-500 cursor-pointer transition-colors" />
-          <FaUser size={20} className="hover:text-red-500 cursor-pointer transition-colors" />
-          <FaMapMarkerAlt size={20} className="hover:text-red-500 cursor-pointer transition-colors" />
-          <FaEdit size={20} className="hover:text-red-500 cursor-pointer transition-colors" />
+        <div className={`w-20 ${isDarkMode ? 'bg-[#111] text-gray-400' : 'bg-white text-gray-600 border-r border-gray-200'} flex flex-col items-center py-6 space-y-8 sticky top-0 h-screen transition-colors duration-300`}>
+          <FaHome size={20} className="hover:text-red-500 cursor-pointer" />
+          <FaGlobe size={20} className="hover:text-red-500 cursor-pointer" />
+          <FaVideo size={20} className="hover:text-red-500 cursor-pointer" />
+          <FaStar size={20} className="hover:text-red-500 cursor-pointer" />
+          <FaThumbsUp size={20} className="hover:text-red-500 cursor-pointer" />
+          <FaUser size={20} className="hover:text-red-500 cursor-pointer" />
+          <FaMapMarkerAlt size={20} className="hover:text-red-500 cursor-pointer" />
+          <FaEdit size={20} className="hover:text-red-500 cursor-pointer" />
         </div>
       )}
 
-      {/* MAIN CONTENT - মোবাইলে ফুল উইডথ, ডেস্কটপে সাইডবারের জন্য মার্জিন */}
-      <div className={`${!isMobile ? 'ml-20' : ''} p-4 md:p-6`}>
+      {/* MAIN CONTENT - মোবাইলে ফুল উইডথ হবে */}
+      <div className={`${!isMobile ? 'flex-1' : 'w-full'} p-4 md:p-6`}>
 
-        {/* হিরো সেকশন - মোবাইলে ভিন্ন ডিজাইন */}
+        {/* HERO SECTION */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          
-          {/* ফিচার্ড ভিডিও - মোবাইলে ফুল স্ক্রিন */}
-          <div className="md:col-span-2 relative rounded-xl overflow-hidden group">
-            <div className="relative">
-              <video
-                className="w-full h-[200px] sm:h-[250px] md:h-[420px] object-cover transition-transform duration-500 group-hover:scale-105"
-                autoPlay
-                muted
-                loop
-                poster="https://images.unsplash.com/photo-1542751371-adc38448a05e"
-              >
-                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
-              </video>
-              
-              {/* গ্রেডিয়েন্ট ওভারলে */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-              
-              {/* প্লে বাটন - মোবাইলে */}
-              {isMobile && (
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
-                    <FaPlay className="text-white text-lg" />
-                  </div>
-                </div>
-              )}
-            </div>
 
-            {/* ভিডিও ইনফো */}
-            <div className="absolute bottom-4 md:bottom-6 left-4 md:left-6 right-4 md:right-auto">
-              <span className={`${isDarkMode ? 'bg-red-600' : 'bg-red-600'} px-2 md:px-3 py-1 text-xs md:text-sm text-white font-medium rounded-full`}>
-                GAMING
-              </span>
+          {/* BIG VIDEO */}
+          <div className="md:col-span-2 relative rounded-lg overflow-hidden group">
+            <video
+              className="w-full h-[250px] sm:h-[300px] md:h-[420px] object-cover transition-transform duration-300 group-hover:scale-105"
+              autoPlay
+              muted
+              loop
+              poster="https://images.unsplash.com/photo-1542751371-adc38448a05e"
+            >
+              <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+            </video>
 
-              <h1 className="text-lg sm:text-xl md:text-3xl font-bold mt-2 md:mt-3 text-white line-clamp-2">
+            <div className="absolute bottom-4 md:bottom-6 left-4 md:left-6">
+              <span className={`${isDarkMode ? 'bg-black' : 'bg-gray-800'} px-2 md:px-3 py-1 text-xs md:text-sm text-white`}>GAMING</span>
+
+              <h1 className="text-lg sm:text-xl md:text-3xl font-bold mt-2 md:mt-3">
                 New MMORPG coming this summer
               </h1>
 
-              <div className="flex items-center gap-3 mt-1 text-xs md:text-sm text-gray-200">
-                <span>Audrey</span>
-                <span>•</span>
-                <span>3.2K views</span>
-                <span>•</span>
-                <span>2 hours ago</span>
-              </div>
+              <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-200'} text-xs md:text-sm mt-1`}>
+                Audrey • 3.2K views
+              </p>
             </div>
 
-            {/* লাইভ ব্যাজ */}
-            <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-              <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-              LIVE
+            <div className="absolute bottom-4 right-4 md:right-6 text-red-500 text-xs md:text-sm">
+              ● Live Chat
             </div>
           </div>
 
-          {/* রাইট সাইড ভিডিও - মোবাইলে অনুভূমিক স্ক্রোল */}
-          <div className={`${isMobile ? 'grid grid-cols-2' : 'grid grid-rows-2'} gap-4`}>
+          {/* RIGHT SIDE VIDEOS */}
+          <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
 
-            {/* টপ ভিডিও */}
-            <div className="relative rounded-xl overflow-hidden group">
-              <div className="relative">
-                <video
-                  className="w-full h-[120px] sm:h-[150px] md:h-[200px] object-cover transition-transform duration-500 group-hover:scale-105"
-                  muted
-                  loop
-                  poster="https://images.unsplash.com/photo-1511379938547-c1f69419868d"
-                >
-                  <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              </div>
+            {/* TOP VIDEO */}
+            <div className="relative rounded-lg overflow-hidden group h-[150px] sm:h-[180px] md:h-full">
+              <video
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                muted
+                loop
+                poster="https://images.unsplash.com/photo-1511379938547-c1f69419868d"
+              >
+                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+              </video>
 
-              <div className="absolute bottom-3 left-3 right-3">
-                <span className="bg-red-600 px-2 py-0.5 text-xs text-white font-medium rounded-full">MUSIC</span>
-                <h3 className="text-sm font-semibold mt-1 text-white line-clamp-1">All Out of Love</h3>
-                <p className="text-xs text-gray-200">Alden • 1.2K views</p>
+              <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4">
+                <span className={`${isDarkMode ? 'bg-black' : 'bg-gray-800'} px-2 py-1 text-xs text-white`}>MUSIC</span>
+
+                <h3 className="text-sm md:text-base font-semibold mt-1 text-white">
+                  All Out of Love
+                </h3>
+
+                <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-200'}`}>
+                  Alden • 1.2K views
+                </p>
               </div>
             </div>
 
-            {/* নিচের ছোট ভিডিও - মোবাইলে ২টি */}
-            <div className="grid grid-cols-1 gap-4">
-              <div className="relative rounded-xl overflow-hidden group">
+            {/* BOTTOM SMALL VIDEOS */}
+            <div className="grid grid-cols-2 gap-4">
+
+              <div className="relative rounded-lg overflow-hidden group h-[120px] sm:h-[150px]">
                 <video
-                  className="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   muted
                   loop
                   poster="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
                 >
                   <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
                 </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                <div className="absolute bottom-3 left-3">
-                  <span className="bg-red-600 px-2 py-0.5 text-xs text-white font-medium rounded-full">MUSIC</span>
-                  <p className="text-xs font-semibold text-white mt-1">Sweet love</p>
+
+                <div className="absolute bottom-2 left-2">
+                  <span className={`${isDarkMode ? 'bg-black' : 'bg-gray-800'} px-1.5 py-0.5 text-xs text-white`}>
+                    MUSIC
+                  </span>
+
+                  <p className="text-xs sm:text-sm font-semibold text-white mt-1">
+                    Sweet love
+                  </p>
                 </div>
               </div>
 
-              <div className="relative rounded-xl overflow-hidden group">
+              <div className="relative rounded-lg overflow-hidden group h-[120px] sm:h-[150px]">
                 <video
-                  className="w-full h-[120px] object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   muted
                   loop
                   poster="https://images.unsplash.com/photo-1606112219348-204d7d8b94ee"
                 >
                   <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
                 </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                <div className="absolute bottom-3 left-3">
-                  <span className="bg-red-600 px-2 py-0.5 text-xs text-white font-medium rounded-full">GAMING</span>
-                  <p className="text-xs font-semibold text-white mt-1">Star Wars</p>
+
+                <div className="absolute bottom-2 left-2">
+                  <span className={`${isDarkMode ? 'bg-black' : 'bg-gray-800'} px-1.5 py-0.5 text-xs text-white`}>
+                    GAMING
+                  </span>
+
+                  <p className="text-xs sm:text-sm font-semibold text-white mt-1">
+                    Star Wars Battlefront
+                  </p>
                 </div>
-                <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-0.5 rounded-full text-xs">
-                  LIVE
+
+                <div className="absolute bottom-2 right-2 text-red-500 text-xs">
+                  ● Live
                 </div>
               </div>
+
             </div>
 
           </div>
         </div>
 
-        {/* টপ প্লেলিস্ট - মোবাইলে অনুভূমিক স্ক্রোল */}
+        {/* TOP PLAYLISTS */}
         <div className="mt-8 md:mt-14">
-          <div className="flex justify-between items-center mb-4 md:mb-6">
-            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>TOP PLAYLISTS</h2>
-            {isMobile && (
-              <button className="text-red-600 text-sm font-medium">See All</button>
-            )}
-          </div>
+          <h2 className={`text-lg md:text-xl font-bold mb-4 md:mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>TOP PLAYLISTS</h2>
 
-          <div className={`${isMobile ? 'flex overflow-x-auto gap-4 pb-4 scrollbar-hide' : 'grid grid-cols-4 gap-6'}`}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+
             {[1, 2, 3, 4].map((item) => (
-              <div key={item} className={`${isMobile ? 'min-w-[200px]' : ''} relative rounded-xl overflow-hidden group cursor-pointer flex-shrink-0`}>
-                <div className="relative">
-                  <video
-                    className="h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    muted
-                    loop
-                    poster={`https://images.unsplash.com/photo-${
-                      item === 1 ? "1507525428034-b723cf961d3e" :
-                      item === 2 ? "1605902711622-cfb43c4437d1" :
-                      item === 3 ? "1493225457124-a3eb161ffa5f" : "1517649763962-0c623066013b"
-                    }`}
-                  >
-                    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
-                  </video>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+              <div key={item} className="relative rounded-lg overflow-hidden group cursor-pointer">
+                <video
+                  className="h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  muted
+                  loop
+                  poster={`https://images.unsplash.com/photo-${
+                    item === 1 ? "1507525428034-b723cf961d3e" :
+                    item === 2 ? "1605902711622-cfb43c4437d1" :
+                    item === 3 ? "1493225457124-a3eb161ffa5f" : "1517649763962-0c623066013b"
+                  }`}
+                >
+                  <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+                </video>
+                <div className={`absolute bottom-2 md:bottom-4 left-2 md:left-4 text-xs md:text-base font-semibold ${isDarkMode ? 'text-white' : 'text-white'}`}>
+                  {item === 1 ? "● Travel" : 
+                   item === 2 ? "● Gaming" :
+                   item === 3 ? "● Pop Music" : "● Funny"}
                 </div>
-                
-                <div className="absolute bottom-3 left-3 right-3">
-                  <p className="text-sm md:text-base font-semibold text-white">
-                    {item === 1 ? "Travel Vibes" : 
-                     item === 2 ? "Gaming Mix" :
-                     item === 3 ? "Pop Hits" : "Funny Moments"}
-                  </p>
-                  <p className="text-xs text-gray-300 mt-1">{item === 1 ? "14 videos" : item === 2 ? "11 videos" : item === 3 ? "11 videos" : "9 videos"}</p>
+                <div className={`absolute top-2 md:top-4 right-2 md:right-4 text-sm md:text-xl ${isDarkMode ? 'text-white' : 'text-white'}`}>
+                  {item === 1 ? "14" : item === 2 ? "11" : item === 3 ? "11" : "9"}
                 </div>
               </div>
             ))}
+
           </div>
         </div>
 
-        {/* রিভিউ সেকশন - মোবাইলে কার্ড স্টাইল */}
+        {/* REVIEW SECTION */}
         <div className="mt-10 md:mt-16">
           <div className="flex justify-between items-center mb-4 md:mb-6">
-            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>REVIEWS</h2>
-            <button className={`${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} px-4 py-2 text-sm rounded-full transition-colors duration-200 font-medium`}>
+            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>REVIEW</h2>
+            <button className={`${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'} px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm rounded transition-colors duration-200`}>
               VIEW MORE
             </button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="group cursor-pointer">
-                <div className="relative rounded-xl overflow-hidden">
+              <div key={item} className="flex flex-col group cursor-pointer">
+                <div className="relative overflow-hidden rounded-lg">
                   <video
-                    className="w-full h-28 sm:h-32 md:h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="rounded-lg w-full h-28 sm:h-32 md:h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                     muted
                     loop
                     poster={`https://images.unsplash.com/photo-${
@@ -268,88 +220,61 @@ const Home = () => {
                   >
                     <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
                   </video>
-                  
-                  {/* ভিডিও ডিউরেশন */}
-                  <span className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 text-xs rounded-md flex items-center gap-1">
-                    <FaClock className="text-xs" /> 15:20
+                  <span className="absolute top-2 right-2 bg-black text-white px-1.5 py-0.5 md:px-2 md:py-1 text-xs">
+                    00:15
                   </span>
-
-                  {/* রেটিং */}
-                  <div className="absolute top-2 left-2 flex items-center gap-1 bg-black/60 text-white px-2 py-1 rounded-md text-xs">
-                    <FaStar className="text-yellow-400" /> 4.8
-                  </div>
                 </div>
-                
-                <div className="mt-2">
-                  <h3 className={`text-xs md:text-sm font-semibold line-clamp-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {item === 1 ? "Star Wars Visions Review" :
-                     item === 2 ? "Star Wars Battlefront Gameplay" :
-                     item === 3 ? "Horizon Zero Dawn Complete Guide" : "Imagine Dragons - New Album Review"}
-                  </h3>
-                  
-                  <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                    <span>2.5K views</span>
-                    <span>•</span>
-                    <span>2 days ago</span>
-                  </div>
+                <h3 className={`mt-2 md:mt-3 text-xs md:text-sm font-semibold line-clamp-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  {item === 1 ? "Star Wars Visions" :
+                   item === 2 ? "Star Wars Battlefront" :
+                   item === 3 ? "Horizon Zero Dawn" : "Imagine Dragons"}
+                </h3>
+                <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  {item === 1 ? "2.5K views" :
+                   item === 2 ? "3.2K views" :
+                   item === 3 ? "4.1K views" : "1.8K views"}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SHORTS SECTION */}
+        <div className="mt-10 md:mt-16">
+          <h2 className={`text-lg md:text-xl font-bold mb-4 md:mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>SHORTS</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            {[1, 2, 3, 4].map((item) => (
+              <div key={item} className="relative rounded-lg overflow-hidden group cursor-pointer">
+                <video
+                  className="h-48 sm:h-56 md:h-80 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  muted
+                  loop
+                  poster={`https://images.unsplash.com/photo-${
+                    item === 1 ? "1516280440614-37939baac9e1" :
+                    item === 2 ? "1534528741775-53994a69daeb" :
+                    item === 3 ? "1506794778200-c1d2c5dabc8" : "1534528741775-53994a69daeb"
+                  }`}
+                >
+                  <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4">
+                  <p className={`text-xs md:text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-white'}`}>Short Video {item}</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-200'}`}>1.2M views</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* শর্টস সেকশন - মোবাইলে অনুভূমিক স্ক্রোল */}
+        {/* GAMING SECTION */}
         <div className="mt-10 md:mt-16">
-          <div className="flex justify-between items-center mb-4 md:mb-6">
-            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>SHORTS</h2>
-            {isMobile && (
-              <button className="text-red-600 text-sm font-medium">See All</button>
-            )}
-          </div>
-
-          <div className={`${isMobile ? 'flex overflow-x-auto gap-3 pb-4 scrollbar-hide' : 'grid grid-cols-4 gap-4'}`}>
+          <h2 className={`text-lg md:text-xl font-bold mb-4 md:mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>GAMING</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[1, 2, 3, 4].map((item) => (
-              <div key={item} className={`${isMobile ? 'min-w-[120px]' : ''} relative rounded-xl overflow-hidden group cursor-pointer flex-shrink-0`}>
-                <div className="relative">
+              <div key={item} className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-lg">
                   <video
-                    className="h-48 sm:h-56 md:h-80 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    muted
-                    loop
-                    poster={`https://images.unsplash.com/photo-${
-                      item === 1 ? "1516280440614-37939baac9e1" :
-                      item === 2 ? "1534528741775-53994a69daeb" :
-                      item === 3 ? "1506794778200-c1d2c5dabc8" : "1534528741775-53994a69daeb"
-                    }`}
-                  >
-                    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
-                  </video>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                </div>
-                
-                <div className="absolute bottom-3 left-3">
-                  <p className="text-sm font-semibold text-white">Short {item}</p>
-                  <div className="flex items-center gap-1 text-xs text-gray-200 mt-1">
-                    <FaEye /> 1.2M
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* গেমিং সেকশন */}
-        <div className="mt-10 md:mt-16">
-          <div className="flex justify-between items-center mb-4 md:mb-6">
-            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>GAMING</h2>
-            {isMobile && <button className="text-red-600 text-sm font-medium">See All</button>}
-          </div>
-
-          <div className={`${isMobile ? 'flex overflow-x-auto gap-4 pb-4 scrollbar-hide' : 'grid grid-cols-4 gap-6'}`}>
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className={`${isMobile ? 'min-w-[200px]' : ''} group cursor-pointer flex-shrink-0`}>
-                <div className="relative rounded-xl overflow-hidden">
-                  <video
-                    className="h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="rounded-lg h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     muted
                     loop
                     poster={`https://images.unsplash.com/photo-${
@@ -360,37 +285,23 @@ const Home = () => {
                   >
                     <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                    20:15
-                  </div>
                 </div>
-                
-                <div className="mt-2">
-                  <h3 className={`text-xs md:text-sm font-semibold line-clamp-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    Gaming Video {item} - Epic Gameplay
-                  </h3>
-                  <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Gaming Channel • 50K views • 1 day ago
-                  </p>
-                </div>
+                <h3 className={`mt-1 md:mt-2 text-xs md:text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Gaming Video {item}</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Gaming Channel</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* মিউজিক সেকশন */}
+        {/* MUSIC SECTION */}
         <div className="mt-10 md:mt-16">
-          <div className="flex justify-between items-center mb-4 md:mb-6">
-            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>MUSIC</h2>
-            {isMobile && <button className="text-red-600 text-sm font-medium">See All</button>}
-          </div>
-
-          <div className={`${isMobile ? 'flex overflow-x-auto gap-4 pb-4 scrollbar-hide' : 'grid grid-cols-4 gap-6'}`}>
+          <h2 className={`text-lg md:text-xl font-bold mb-4 md:mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>MUSIC</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[1, 2, 3, 4].map((item) => (
-              <div key={item} className={`${isMobile ? 'min-w-[200px]' : ''} group cursor-pointer flex-shrink-0`}>
-                <div className="relative rounded-xl overflow-hidden">
+              <div key={item} className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-lg">
                   <video
-                    className="h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="rounded-lg h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     muted
                     loop
                     poster={`https://images.unsplash.com/photo-${
@@ -401,37 +312,23 @@ const Home = () => {
                   >
                     <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                    3:45
-                  </div>
                 </div>
-                
-                <div className="mt-2">
-                  <h3 className={`text-xs md:text-sm font-semibold line-clamp-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    Music Video {item} - Official Audio
-                  </h3>
-                  <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Music Channel • 100K views • 3 days ago
-                  </p>
-                </div>
+                <h3 className={`mt-1 md:mt-2 text-xs md:text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Music Video {item}</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Music Channel</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ট্রাভেল সেকশন */}
+        {/* TRAVEL SECTION */}
         <div className="mt-10 md:mt-16">
-          <div className="flex justify-between items-center mb-4 md:mb-6">
-            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>TRAVEL</h2>
-            {isMobile && <button className="text-red-600 text-sm font-medium">See All</button>}
-          </div>
-
-          <div className={`${isMobile ? 'flex overflow-x-auto gap-4 pb-4 scrollbar-hide' : 'grid grid-cols-4 gap-6'}`}>
+          <h2 className={`text-lg md:text-xl font-bold mb-4 md:mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>TRAVEL</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[1, 2, 3, 4].map((item) => (
-              <div key={item} className={`${isMobile ? 'min-w-[200px]' : ''} group cursor-pointer flex-shrink-0`}>
-                <div className="relative rounded-xl overflow-hidden">
+              <div key={item} className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-lg">
                   <video
-                    className="h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="rounded-lg h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     muted
                     loop
                     poster={`https://images.unsplash.com/photo-${
@@ -442,37 +339,23 @@ const Home = () => {
                   >
                     <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                    10:30
-                  </div>
                 </div>
-                
-                <div className="mt-2">
-                  <h3 className={`text-xs md:text-sm font-semibold line-clamp-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    Travel Video {item} - Beautiful Destinations
-                  </h3>
-                  <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Travel Channel • 30K views • 5 days ago
-                  </p>
-                </div>
+                <h3 className={`mt-1 md:mt-2 text-xs md:text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Travel Video {item}</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Travel Channel</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* স্পোর্টস সেকশন */}
+        {/* SPORTS SECTION */}
         <div className="mt-10 md:mt-16">
-          <div className="flex justify-between items-center mb-4 md:mb-6">
-            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>SPORTS</h2>
-            {isMobile && <button className="text-red-600 text-sm font-medium">See All</button>}
-          </div>
-
-          <div className={`${isMobile ? 'flex overflow-x-auto gap-4 pb-4 scrollbar-hide' : 'grid grid-cols-4 gap-6'}`}>
+          <h2 className={`text-lg md:text-xl font-bold mb-4 md:mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>SPORTS</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[1, 2, 3, 4].map((item) => (
-              <div key={item} className={`${isMobile ? 'min-w-[200px]' : ''} group cursor-pointer flex-shrink-0`}>
-                <div className="relative rounded-xl overflow-hidden">
+              <div key={item} className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-lg">
                   <video
-                    className="h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="rounded-lg h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     muted
                     loop
                     poster={`https://images.unsplash.com/photo-${
@@ -483,37 +366,23 @@ const Home = () => {
                   >
                     <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                    15:45
-                  </div>
                 </div>
-                
-                <div className="mt-2">
-                  <h3 className={`text-xs md:text-sm font-semibold line-clamp-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    Sports Video {item} - Highlights
-                  </h3>
-                  <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Sports Channel • 75K views • 2 hours ago
-                  </p>
-                </div>
+                <h3 className={`mt-1 md:mt-2 text-xs md:text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Sports Video {item}</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Sports Channel</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* লেটেস্ট ভিডিও সেকশন */}
+        {/* LATEST VIDEOS SECTION */}
         <div className="mt-10 md:mt-16 mb-6 md:mb-8">
-          <div className="flex justify-between items-center mb-4 md:mb-6">
-            <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>LATEST VIDEOS</h2>
-            {isMobile && <button className="text-red-600 text-sm font-medium">See All</button>}
-          </div>
-
+          <h2 className={`text-lg md:text-xl font-bold mb-4 md:mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>LATEST VIDEOS</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[1, 2, 3, 4].map((item) => (
               <div key={item} className="group cursor-pointer">
-                <div className="relative rounded-xl overflow-hidden">
+                <div className="relative overflow-hidden rounded-lg">
                   <video
-                    className="h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="rounded-lg h-28 sm:h-32 md:h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     muted
                     loop
                     poster={`https://images.unsplash.com/photo-${
@@ -524,39 +393,18 @@ const Home = () => {
                   >
                     <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
                   </video>
-                  <span className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded-full font-medium">
+                  <span className="absolute top-2 right-2 bg-red-600 text-white px-1.5 py-0.5 md:px-2 md:py-1 text-xs rounded">
                     NEW
                   </span>
-                  <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                    8:22
-                  </div>
                 </div>
-                
-                <div className="mt-2">
-                  <h3 className={`text-xs md:text-sm font-semibold line-clamp-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    Latest Video {item} - Trending Now
-                  </h3>
-                  <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Channel Name • 2 hours ago
-                  </p>
-                </div>
+                <h3 className={`mt-1 md:mt-2 text-xs md:text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Latest Video {item}</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Channel Name</p>
               </div>
             ))}
           </div>
         </div>
 
       </div>
-
-      {/* স্ক্রলবার হাইড করার জন্য CSS */}
-      <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </div>
   );
 };
