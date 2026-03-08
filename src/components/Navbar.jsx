@@ -129,13 +129,13 @@ const Navbar = () => {
     transition: 'opacity 0.3s ease, visibility 0.3s ease'
   };
 
-  // বড় লোগোর জন্য SVG (ডার্ক/লাইট মোড অনুযায়ী)
+  // বড় লোগোর জন্য SVG (ডার্ক/লাইট মোড অনুযায়ী) - stream এবং tube এর মাঝে স্পেস যোগ করা হয়েছে
   const Logo = () => (
     <Link to="/">
       <svg
-        width={windowWidth <= 768 ? "140" : "180"}
+        width={windowWidth <= 768 ? "180" : "220"}
         height={windowWidth <= 768 ? "42" : "52"}
-        viewBox="0 0 200 60"
+        viewBox="0 0 240 60"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         style={{ cursor: 'pointer' }}
@@ -156,9 +156,9 @@ const Navbar = () => {
         >
           stream
         </text>
-        {/* tube টেক্সট - বড় */}
+        {/* tube টেক্সট - বড় (এখন স্পেস সহ) */}
         <text
-          x="145"
+          x="170" // আগে 145 ছিল, এখন 170 করা হয়েছে স্পেসের জন্য
           y="38"
           fontFamily="Arial, sans-serif"
           fontSize="28"
