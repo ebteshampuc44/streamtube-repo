@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { 
   FaSearch, 
   FaShoppingCart, 
@@ -128,43 +129,46 @@ const Navbar = () => {
     transition: 'opacity 0.3s ease, visibility 0.3s ease'
   };
 
-  // লোগোর জন্য inline SVG (ডার্ক/লাইট মোড অনুযায়ী)
+  // বড় লোগোর জন্য SVG (ডার্ক/লাইট মোড অনুযায়ী)
   const Logo = () => (
-    <svg
-      width={windowWidth <= 768 ? "100" : "120"}
-      height={windowWidth <= 768 ? "30" : "35"}
-      viewBox="0 0 150 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* প্লে বাটন আইকন */}
-      <path
-        d="M20 10L35 20L20 30V10Z"
-        fill={isDarkMode ? "#dc2626" : "#dc2626"}
-      />
-      {/* stream টেক্সট */}
-      <text
-        x="45"
-        y="25"
-        fontFamily="Arial, sans-serif"
-        fontSize="18"
-        fontWeight="bold"
-        fill={isDarkMode ? "#ffffff" : "#111111"}
+    <Link to="/">
+      <svg
+        width={windowWidth <= 768 ? "140" : "180"}
+        height={windowWidth <= 768 ? "42" : "52"}
+        viewBox="0 0 200 60"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ cursor: 'pointer' }}
       >
-        stream
-      </text>
-      {/* tube টেক্সট */}
-      <text
-        x="105"
-        y="25"
-        fontFamily="Arial, sans-serif"
-        fontSize="18"
-        fontWeight="bold"
-        fill={isDarkMode ? "#dc2626" : "#dc2626"}
-      >
-        tube
-      </text>
-    </svg>
+        {/* বড় প্লে বাটন আইকন */}
+        <path
+          d="M25 15L45 30L25 45V15Z"
+          fill="#dc2626"
+        />
+        {/* stream টেক্সট - বড় */}
+        <text
+          x="60"
+          y="38"
+          fontFamily="Arial, sans-serif"
+          fontSize="28"
+          fontWeight="bold"
+          fill={isDarkMode ? "#ffffff" : "#111111"}
+        >
+          stream
+        </text>
+        {/* tube টেক্সট - বড় */}
+        <text
+          x="145"
+          y="38"
+          fontFamily="Arial, sans-serif"
+          fontSize="28"
+          fontWeight="bold"
+          fill="#dc2626"
+        >
+          tube
+        </text>
+      </svg>
+    </Link>
   );
 
   return (
@@ -173,7 +177,7 @@ const Navbar = () => {
       <div style={navbarStyle}>
 
         {/* Left side - Logo and Hamburger */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: windowWidth <= 768 ? '8px' : '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: windowWidth <= 768 ? '12px' : '20px' }}>
           {/* Hamburger Menu - Mobile Only */}
           {windowWidth <= 768 && (
             <button 
@@ -195,21 +199,21 @@ const Navbar = () => {
               aria-label="Menu"
             >
               {isMobileMenuOpen ? (
-                <FaTimes style={{ fontSize: '20px', color: isDarkMode ? '#fff' : '#333' }} />
+                <FaTimes style={{ fontSize: '24px', color: isDarkMode ? '#fff' : '#333' }} />
               ) : (
-                <FaBars style={{ fontSize: '20px', color: isDarkMode ? '#fff' : '#333' }} />
+                <FaBars style={{ fontSize: '24px', color: isDarkMode ? '#fff' : '#333' }} />
               )}
             </button>
           )}
 
-          {/* Logo - SVG (ডার্ক/লাইট মোড অনুযায়ী রং পরিবর্তন) */}
+          {/* Logo - SVG (ডার্ক/লাইট মোড অনুযায়ী রং পরিবর্তন) - বড় */}
           <Logo />
         </div>
 
         {/* Search Bar - Desktop */}
         {windowWidth > 768 && (
           <div style={searchBarStyle}>
-            <FaSlidersH style={{ color: isDarkMode ? '#9ca3af' : '#4b5563', marginRight: '12px' }} />
+            <FaSlidersH style={{ color: isDarkMode ? '#9ca3af' : '#4b5563', marginRight: '12px', fontSize: '16px' }} />
             <input
               type="text"
               placeholder="Search here..."
@@ -218,7 +222,7 @@ const Navbar = () => {
                 outline: 'none',
                 border: 'none',
                 flex: 1,
-                fontSize: '14px',
+                fontSize: '15px',
                 color: isDarkMode ? '#ffffff' : '#1f2937',
                 placeholder: isDarkMode ? '#6b7280' : '#9ca3af'
               }}
@@ -226,14 +230,16 @@ const Navbar = () => {
             <button style={{
               backgroundColor: '#dc2626',
               color: '#ffffff',
-              padding: '8px 20px',
+              padding: '8px 24px',
               borderRadius: '9999px',
               border: 'none',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'background-color 0.2s, transform 0.2s'
+              transition: 'background-color 0.2s, transform 0.2s',
+              fontSize: '15px',
+              fontWeight: '500'
             }}
             onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = '#b91c1c';
@@ -244,13 +250,13 @@ const Navbar = () => {
               e.currentTarget.style.transform = 'scale(1)';
             }}
             >
-              <FaSearch />
+              <FaSearch style={{ marginRight: '8px' }} /> Search
             </button>
           </div>
         )}
 
         {/* Right side */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: windowWidth <= 768 ? '8px' : windowWidth <= 1024 ? '12px' : '24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: windowWidth <= 768 ? '12px' : windowWidth <= 1024 ? '16px' : '28px' }}>
 
           {/* Search Icon - Mobile */}
           {windowWidth <= 768 && (
@@ -267,7 +273,7 @@ const Navbar = () => {
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
               onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <FaSearch style={{ fontSize: '18px', color: isDarkMode ? '#fff' : '#4b5563' }} />
+              <FaSearch style={{ fontSize: '20px', color: isDarkMode ? '#fff' : '#4b5563' }} />
             </button>
           )}
 
@@ -275,66 +281,85 @@ const Navbar = () => {
           {windowWidth > 480 && (
             <div style={{
               cursor: 'pointer',
-              transition: 'transform 0.2s ease'
+              transition: 'transform 0.2s ease',
+              position: 'relative'
             }}
             onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
               <FaShoppingCart style={{ 
-                fontSize: windowWidth <= 768 ? '16px' : '20px', 
+                fontSize: windowWidth <= 768 ? '20px' : '24px', 
                 color: isDarkMode ? '#fff' : '#4b5563'
               }} />
+              {windowWidth > 768 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  right: '-8px',
+                  backgroundColor: '#dc2626',
+                  color: 'white',
+                  borderRadius: '50%',
+                  padding: '2px 6px',
+                  fontSize: '12px',
+                  fontWeight: 'bold'
+                }}>3</span>
+              )}
             </div>
           )}
 
-          {/* Sign In */}
+          {/* Sign In - লিংক যোগ করা হয়েছে */}
           {windowWidth > 640 ? (
-            <button style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              backgroundColor: '#dc2626',
-              color: '#ffffff',
-              padding: windowWidth <= 768 ? '6px 12px' : '8px 16px',
-              borderRadius: '9999px',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: windowWidth <= 768 ? '14px' : '16px',
-              transition: 'background-color 0.2s, transform 0.2s'
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = '#b91c1c';
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = '#dc2626';
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-            >
-              <FaUser />
-              {windowWidth > 1024 && <span>Sign In</span>}
-            </button>
+            <Link to="/signin">
+              <button style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                backgroundColor: '#dc2626',
+                color: '#ffffff',
+                padding: windowWidth <= 768 ? '8px 16px' : '10px 20px',
+                borderRadius: '9999px',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: windowWidth <= 768 ? '15px' : '16px',
+                fontWeight: '500',
+                transition: 'background-color 0.2s, transform 0.2s'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.backgroundColor = '#b91c1c';
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.backgroundColor = '#dc2626';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+              >
+                <FaUser style={{ fontSize: '16px' }} />
+                {windowWidth > 1024 && <span>Sign In</span>}
+              </button>
+            </Link>
           ) : (
-            <button style={{
-              padding: '8px',
-              borderRadius: '50%',
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'transform 0.2s ease'
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <FaUser style={{ fontSize: '18px', color: isDarkMode ? '#fff' : '#4b5563' }} />
-            </button>
+            <Link to="/signin">
+              <button style={{
+                padding: '10px',
+                borderRadius: '50%',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease'
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <FaUser style={{ fontSize: '20px', color: isDarkMode ? '#fff' : '#4b5563' }} />
+              </button>
+            </Link>
           )}
 
           {/* Dark/Light mode toggle */}
           <button 
             onClick={toggleTheme}
             style={{
-              padding: windowWidth <= 768 ? '6px' : '8px',
+              padding: windowWidth <= 768 ? '8px' : '10px',
               borderRadius: '50%',
               border: 'none',
               cursor: 'pointer',
@@ -355,7 +380,7 @@ const Navbar = () => {
             }}
             aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {isDarkMode ? <FaSun style={{ fontSize: windowWidth <= 768 ? '14px' : '18px' }} /> : <FaMoon style={{ fontSize: windowWidth <= 768 ? '14px' : '18px' }} />}
+            {isDarkMode ? <FaSun style={{ fontSize: windowWidth <= 768 ? '18px' : '20px' }} /> : <FaMoon style={{ fontSize: windowWidth <= 768 ? '18px' : '20px' }} />}
           </button>
 
         </div>
@@ -369,11 +394,11 @@ const Navbar = () => {
             alignItems: 'center',
             backgroundColor: isDarkMode ? '#1e1e1e' : '#f3f4f6',
             borderRadius: '9999px',
-            padding: '8px 16px',
+            padding: '12px 16px',
             transition: 'all 0.3s ease',
             animation: 'slideDown 0.3s ease'
           }}>
-            <FaSlidersH style={{ color: isDarkMode ? '#9ca3af' : '#4b5563', marginRight: '12px' }} />
+            <FaSlidersH style={{ color: isDarkMode ? '#9ca3af' : '#4b5563', marginRight: '12px', fontSize: '16px' }} />
             <input
               type="text"
               placeholder="Search here..."
@@ -382,7 +407,7 @@ const Navbar = () => {
                 outline: 'none',
                 border: 'none',
                 flex: 1,
-                fontSize: '14px',
+                fontSize: '15px',
                 color: isDarkMode ? '#ffffff' : '#1f2937'
               }}
               autoFocus
@@ -390,11 +415,13 @@ const Navbar = () => {
             <button style={{
               backgroundColor: '#dc2626',
               color: '#ffffff',
-              padding: '8px 16px',
+              padding: '10px 20px',
               borderRadius: '9999px',
               border: 'none',
               cursor: 'pointer',
-              transition: 'background-color 0.2s, transform 0.2s'
+              transition: 'background-color 0.2s, transform 0.2s',
+              fontSize: '14px',
+              fontWeight: '500'
             }}
             onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = '#b91c1c';
@@ -419,7 +446,7 @@ const Navbar = () => {
           
           {/* Menu Panel */}
           <div ref={menuRef} style={menuPanelStyle}>
-            <div style={{ padding: '24px' }}>
+            <div style={{ padding: '28px' }}>
               {/* Close Button Inside Menu */}
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -444,106 +471,113 @@ const Navbar = () => {
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }}
               >
-                <FaTimes style={{ fontSize: '20px', color: isDarkMode ? '#fff' : '#333' }} />
+                <FaTimes style={{ fontSize: '22px', color: isDarkMode ? '#fff' : '#333' }} />
               </button>
 
               {/* User Info */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
-                paddingBottom: '24px',
+                gap: '15px',
+                paddingBottom: '28px',
                 borderBottom: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
                 marginTop: '20px'
               }}>
                 <div style={{
-                  width: '48px',
-                  height: '48px',
+                  width: '55px',
+                  height: '55px',
                   borderRadius: '50%',
                   backgroundColor: isDarkMode ? '#1f2937' : '#e5e7eb',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <FaUser style={{ fontSize: '20px', color: isDarkMode ? '#9ca3af' : '#6b7280' }} />
+                  <FaUser style={{ fontSize: '24px', color: isDarkMode ? '#9ca3af' : '#6b7280' }} />
                 </div>
                 <div>
-                  <p style={{ fontWeight: '600', margin: 0, color: isDarkMode ? '#fff' : '#1f2937' }}>Guest User</p>
-                  <button 
-                    style={{ 
-                      color: '#dc2626', 
-                      fontSize: '14px', 
-                      background: 'none', 
-                      border: 'none', 
-                      cursor: 'pointer', 
-                      padding: 0,
-                      transition: 'color 0.2s'
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.color = '#b91c1c'}
-                    onMouseLeave={e => e.currentTarget.style.color = '#dc2626'}
-                  >
-                    Sign In
-                  </button>
+                  <p style={{ fontWeight: '600', margin: 0, fontSize: '16px', color: isDarkMode ? '#fff' : '#1f2937' }}>Guest User</p>
+                  <Link to="/signin">
+                    <button 
+                      style={{ 
+                        color: '#dc2626', 
+                        fontSize: '15px', 
+                        background: 'none', 
+                        border: 'none', 
+                        cursor: 'pointer', 
+                        padding: '5px 0',
+                        transition: 'color 0.2s'
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.color = '#b91c1c'}
+                      onMouseLeave={e => e.currentTarget.style.color = '#dc2626'}
+                    >
+                      Sign In
+                    </button>
+                  </Link>
                 </div>
               </div>
 
               {/* Menu Items */}
-              <div style={{ marginTop: '24px' }}>
+              <div style={{ marginTop: '28px' }}>
                 {[
-                  { icon: <FaHome />, label: 'Home' },
-                  { icon: <FaGlobe />, label: 'Explore' },
-                  { icon: <FaVideo />, label: 'Videos' },
-                  { icon: <FaStar />, label: 'Trending' },
-                  { icon: <FaThumbsUp />, label: 'Liked' },
-                  { icon: <FaMapMarkerAlt />, label: 'Travel' },
-                  { icon: <FaEdit />, label: 'Blog' }
+                  { icon: <FaHome />, label: 'Home', path: '/' },
+                  { icon: <FaGlobe />, label: 'Explore', path: '/explore' },
+                  { icon: <FaVideo />, label: 'Videos', path: '/videos' },
+                  { icon: <FaStar />, label: 'Trending', path: '/trending' },
+                  { icon: <FaThumbsUp />, label: 'Liked', path: '/liked' },
+                  { icon: <FaMapMarkerAlt />, label: 'Travel', path: '/travel' },
+                  { icon: <FaEdit />, label: 'Blog', path: '/blog' }
                 ].map((item, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '16px',
-                      padding: '12px 0',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      color: isDarkMode ? '#9ca3af' : '#6b7280',
-                      transform: 'translateX(0)',
-                      animation: `slideIn 0.3s ease ${index * 0.05}s both`
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.color = '#dc2626';
-                      e.currentTarget.style.transform = 'translateX(8px)';
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280';
-                      e.currentTarget.style.transform = 'translateX(0)';
-                    }}
-                  >
-                    <span style={{ fontSize: '18px' }}>{item.icon}</span>
-                    <span style={{ fontSize: '16px' }}>{item.label}</span>
-                  </div>
+                  <Link to={item.path} key={index} style={{ textDecoration: 'none' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '18px',
+                        padding: '15px 0',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        color: isDarkMode ? '#9ca3af' : '#6b7280',
+                        transform: 'translateX(0)',
+                        animation: `slideIn 0.3s ease ${index * 0.05}s both`,
+                        fontSize: '16px'
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.color = '#dc2626';
+                        e.currentTarget.style.transform = 'translateX(8px)';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280';
+                        e.currentTarget.style.transform = 'translateX(0)';
+                      }}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <span style={{ fontSize: '20px' }}>{item.icon}</span>
+                      <span style={{ fontSize: '17px', fontWeight: '500' }}>{item.label}</span>
+                    </div>
+                  </Link>
                 ))}
               </div>
 
               {/* Cart Info */}
               <div style={{
                 position: 'absolute',
-                bottom: '24px',
-                left: '24px',
-                right: '24px',
-                paddingTop: '24px',
+                bottom: '28px',
+                left: '28px',
+                right: '28px',
+                paddingTop: '28px',
                 borderTop: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
                 animation: 'fadeIn 0.5s ease 0.4s both'
               }}>
                 <div style={{ 
                   display: 'flex', 
                   justifyContent: 'space-between',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  fontSize: '16px'
                 }}>
-                  <span style={{ color: isDarkMode ? '#9ca3af' : '#6b7280' }}>Cart (0)</span>
+                  <span style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontWeight: '500' }}>Cart (3 items)</span>
                   <FaShoppingCart style={{ 
                     color: isDarkMode ? '#fff' : '#1f2937',
+                    fontSize: '22px',
                     transition: 'transform 0.2s'
                   }} />
                 </div>
