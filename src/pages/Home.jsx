@@ -355,7 +355,7 @@ const Home = () => {
         <div className={`w-20 ${isDarkMode ? 'bg-[#111] text-gray-400' : 'bg-white text-gray-600 border-r border-gray-200'} flex flex-col items-center py-6 space-y-8 sticky top-0 h-screen z-10`}>
           {sidebarItems.map((item, index) => (
             <Link to={item.path} key={index}
-              className={`hover:text-red-500 cursor-pointer transition-colors ${item.active ? 'text-red-500' : ''}`}
+              className={`hover:text-red-500 cursor-pointer transition-colors ${item.path === '/' ? 'text-red-500' : ''}`}
               title={item.label}>
               {item.icon}
             </Link>
@@ -365,6 +365,103 @@ const Home = () => {
 
       {/* মূল কন্টেন্ট */}
       <div className={`${!isMobile ? 'flex-1' : 'w-full'} overflow-hidden`}>
+        
+        {/* হোম হেডার - ডেস্কটপ ও মোবাইলের জন্য */}
+        <div className={`sticky top-0 z-20 ${isDarkMode ? 'bg-[#0f0f0f]/80 backdrop-blur-sm' : 'bg-white/80 backdrop-blur-sm'} border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} px-4 py-3`}>
+          <div className="max-w-[1600px] mx-auto flex items-center justify-between">
+            {/* মোবাইল মেনু বাটন */}
+            {isMobile && (
+              <button
+                ref={menuButtonRef}
+                onClick={() => setIsMobileMenuOpen(true)}
+                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+              >
+                <FaBars size={20} />
+              </button>
+            )}
+
+            {/* লোগো - মোবাইলে সেন্টার */}
+            <div className={`flex items-center ${isMobile ? 'flex-1 justify-center' : ''}`}>
+              <Link to="/" className="flex items-center">
+                <span className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>stream</span>
+                <span className="text-xl font-bold text-red-600">tube</span>
+              </Link>
+            </div>
+
+            {/* সার্চ বার - ডেস্কটপ */}
+            {!isMobile && (
+              <div className="flex-1 max-w-2xl mx-8">
+                <form onSubmit={handleSearchSubmit} className="relative">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    placeholder="Search videos..."
+                    className={`w-full px-4 py-2 rounded-full border ${
+                      isDarkMode 
+                        ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500' 
+                        : 'bg-gray-100 border-gray-300 text-gray-900 placeholder-gray-500'
+                    } focus:outline-none focus:ring-2 focus:ring-red-600`}
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-gray-200/10"
+                  >
+                    <FaSearch className={isDarkMode ? 'text-gray-400' : 'text-gray-600'} />
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* ডান পাশের বাটন */}
+            <div className="flex items-center gap-2">
+              {/* মোবাইলে সার্চ বাটন */}
+              {isMobile && (
+                <button
+                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                  className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+                >
+                  <FaSearch size={18} />
+                </button>
+              )}
+              
+              {/* থিম টগল */}
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+              >
+                {isDarkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
+              </button>
+            </div>
+          </div>
+
+          {/* মোবাইলে সার্চ বার (যখন সার্চ ওপেন) */}
+          {isMobile && isSearchOpen && (
+            <div className="mt-2">
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  placeholder="Search videos..."
+                  className={`w-full px-4 py-2 rounded-full border ${
+                    isDarkMode 
+                      ? 'bg-gray-900 border-gray-700 text-white' 
+                      : 'bg-gray-100 border-gray-300 text-gray-900'
+                  } focus:outline-none focus:ring-2 focus:ring-red-600`}
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(false)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2"
+                >
+                  <FaTimes className={isDarkMode ? 'text-gray-400' : 'text-gray-600'} size={14} />
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
         
         {/* মেইন কন্টেন্ট - মোবাইলের জন্য হেডার ছাড়া */}
         <div className="max-w-[1600px] mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-6">
@@ -490,6 +587,11 @@ const Home = () => {
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                       {trendingVideos.slice(0, 12).map(video => <VideoCard key={video.id} video={video} />)}
                     </div>
+                    <div className="mt-3 text-right">
+                      <Link to="/trending" className="text-sm text-red-600 hover:underline font-medium">
+                        See all trending videos →
+                      </Link>
+                    </div>
                   </section>
 
                   {/* ───── Shorts সেকশন ───── */}
@@ -557,6 +659,11 @@ const Home = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {musicVideos.slice(0, 8).map(video => <VideoCard key={video.id} video={video} />)}
                     </div>
+                    <div className="mt-3 text-right">
+                      <Link to="/videos?category=music" className="text-sm text-red-600 hover:underline font-medium">
+                        See all music videos →
+                      </Link>
+                    </div>
                   </section>
 
                   {/* Gaming সেকশন */}
@@ -567,6 +674,11 @@ const Home = () => {
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {gamingVideos.slice(0, 8).map(video => <VideoCard key={video.id} video={video} />)}
+                    </div>
+                    <div className="mt-3 text-right">
+                      <Link to="/videos?category=gaming" className="text-sm text-red-600 hover:underline font-medium">
+                        See all gaming videos →
+                      </Link>
                     </div>
                   </section>
 
@@ -579,6 +691,11 @@ const Home = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {travelVideos.slice(0, 8).map(video => <VideoCard key={video.id} video={video} />)}
                     </div>
+                    <div className="mt-3 text-right">
+                      <Link to="/travel" className="text-sm text-red-600 hover:underline font-medium">
+                        See all travel videos →
+                      </Link>
+                    </div>
                   </section>
 
                   {/* Sports সেকশন */}
@@ -590,6 +707,11 @@ const Home = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {sportsVideos.slice(0, 8).map(video => <VideoCard key={video.id} video={video} />)}
                     </div>
+                    <div className="mt-3 text-right">
+                      <Link to="/videos?category=sports" className="text-sm text-red-600 hover:underline font-medium">
+                        See all sports videos →
+                      </Link>
+                    </div>
                   </section>
 
                   {/* Latest সেকশন */}
@@ -600,6 +722,11 @@ const Home = () => {
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {latestVideos.slice(0, 8).map(video => <VideoCard key={video.id} video={video} badge="NEW" />)}
+                    </div>
+                    <div className="mt-3 text-right">
+                      <Link to="/videos?category=latest" className="text-sm text-red-600 hover:underline font-medium">
+                        See all latest videos →
+                      </Link>
                     </div>
                   </section>
                 </>
@@ -637,7 +764,7 @@ const Home = () => {
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`flex items-center gap-4 p-3 rounded-lg transition-colors ${
-                      item.active
+                      item.path === '/'
                         ? 'bg-red-600 text-white'
                         : isDarkMode
                           ? 'text-gray-300 hover:bg-gray-800'
@@ -649,6 +776,22 @@ const Home = () => {
                   </Link>
                 ))}
               </div>
+              
+              {/* মোবাইলে থিম টগল */}
+              <div className="mt-8 pt-6 border-t border-gray-700">
+                <button
+                  onClick={() => {
+                    toggleTheme();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-4 p-3 rounded-lg ${
+                    isDarkMode ? 'text-gray-300 hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-xl">{isDarkMode ? <FaSun /> : <FaMoon />}</span>
+                  <span className="font-medium">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+                </button>
+              </div>
             </div>
           </div>
         </>
@@ -657,6 +800,15 @@ const Home = () => {
       <style>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .grid > * {
+          animation: fadeIn 0.3s ease forwards;
+        }
       `}</style>
     </div>
   );
