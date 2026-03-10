@@ -1,11 +1,11 @@
 // pages/Home.jsx
-import React, { useContext, useState, useEffect, useRef, useCallback } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import {
   FaHome, FaGlobe, FaVideo, FaStar, FaThumbsUp, FaUser, FaMapMarkerAlt,
   FaEdit, FaPlay, FaClock, FaEye, FaMusic, FaGamepad, FaPlane, FaFutbol,
   FaFire, FaNewspaper, FaHeart, FaComment, FaShare, FaChevronLeft,
   FaChevronRight, FaPlayCircle, FaPlus, FaCheck, FaVolumeUp, FaVolumeMute,
-  FaBars, FaTimes, FaSearch, FaMoon, FaSun
+  FaBars, FaTimes, FaMoon, FaSun
 } from "react-icons/fa";
 import { ThemeContext } from "../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -211,10 +211,6 @@ const Home = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [trendingIndex, setTrendingIndex] = useState(0);
@@ -224,32 +220,6 @@ const Home = () => {
   const scrollContainerRef = useRef(null);
   const menuRef = useRef(null);
   const menuButtonRef = useRef(null);
-  const searchInputRef = useRef(null);
-
-  // সার্চ ফাংশন
-  const handleSearch = useCallback((query) => {
-    setSearchQuery(query);
-    if (!query.trim()) {
-      setSearchResults([]);
-      setIsSearching(false);
-      return;
-    }
-    setIsSearching(true);
-    const q = query.toLowerCase();
-    const results = ALL_VIDEOS.filter(v =>
-      v.title.toLowerCase().includes(q) ||
-      v.channel.toLowerCase().includes(q) ||
-      v.category.toLowerCase().includes(q)
-    );
-    setSearchResults(results);
-  }, []);
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      handleSearch(searchQuery);
-    }
-  };
 
   // মেনু বাইরে ক্লিক
   useEffect(() => {
@@ -388,109 +358,30 @@ const Home = () => {
               </Link>
             </div> */}
 
-            {/* সার্চ বার - ডেস্কটপ */}
-            {!isMobile && (
-              <div className="flex-1 max-w-2xl mx-8">
-                <form onSubmit={handleSearchSubmit} className="relative">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => handleSearch(e.target.value)}
-                    placeholder="Search videos..."
-                    className={`w-full px-4 py-2 rounded-full border ${
-                      isDarkMode 
-                        ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-500' 
-                        : 'bg-gray-100 border-gray-300 text-gray-900 placeholder-gray-500'
-                    } focus:outline-none focus:ring-2 focus:ring-red-600`}
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-gray-200/10"
-                  >
-                    <FaSearch className={isDarkMode ? 'text-gray-400' : 'text-gray-600'} />
-                  </button>
-                </form>
-              </div>
-            )}
+
 
             {/* ডান পাশের বাটন */}
             <div className="flex items-center gap-2">
-              {/* মোবাইলে সার্চ বাটন */}
-              {isMobile && (
-                <button
-                  onClick={() => setIsSearchOpen(!isSearchOpen)}
-                  className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
-                >
-                  <FaSearch size={18} />
-                </button>
-              )}
+
               
               {/* থিম টগল */}
-              <button
+              {/* <button
                 onClick={toggleTheme}
                 className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
               >
                 {isDarkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
-              </button>
+              </button> */}
             </div>
           </div>
 
-          {/* মোবাইলে সার্চ বার (যখন সার্চ ওপেন) */}
-          {isMobile && isSearchOpen && (
-            <div className="mt-2">
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  placeholder="Search videos..."
-                  className={`w-full px-4 py-2 rounded-full border ${
-                    isDarkMode 
-                      ? 'bg-gray-900 border-gray-700 text-white' 
-                      : 'bg-gray-100 border-gray-300 text-gray-900'
-                  } focus:outline-none focus:ring-2 focus:ring-red-600`}
-                  autoFocus
-                />
-                <button
-                  type="button"
-                  onClick={() => setIsSearchOpen(false)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2"
-                >
-                  <FaTimes className={isDarkMode ? 'text-gray-400' : 'text-gray-600'} size={14} />
-                </button>
-              </form>
-            </div>
-          )}
+
         </div>
         
         {/* মেইন কন্টেন্ট - মোবাইলের জন্য হেডার ছাড়া */}
         <div className="max-w-[1600px] mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-6">
 
-          {/* ───── সার্চ রেজাল্ট ───── */}
-          {isSearching && (
-            <section className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <SVGIcons.All className="w-6 h-6 text-red-600" />
-                <h2 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Search Results for "{searchQuery}" ({searchResults.length})
-                </h2>
-              </div>
-              {searchResults.length === 0 ? (
-                <div className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  <SVGIcons.All className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                  <p className="text-lg">No videos found for "{searchQuery}"</p>
-                  <p className="text-sm mt-1">Try different keywords</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {searchResults.slice(0, 12).map(video => <VideoCard key={video.id} video={video} />)}
-                </div>
-              )}
-            </section>
-          )}
-
-          {/* ───── নরমাল কন্টেন্ট (সার্চ না হলে দেখাবে) ───── */}
-          {!isSearching && (
+          {/* ───── নরমাল কন্টেন্ট ───── */}
+          {(
             <>
               {/* ক্যাটাগরি ফিল্টার */}
               <div ref={scrollContainerRef} className="flex gap-2 mb-6 overflow-x-auto scrollbar-hide pb-2">
@@ -778,7 +669,7 @@ const Home = () => {
               </div>
               
               {/* মোবাইলে থিম টগল */}
-              <div className="mt-8 pt-6 border-t border-gray-700">
+              {/* <div className="mt-8 pt-6 border-t border-gray-700">
                 <button
                   onClick={() => {
                     toggleTheme();
@@ -791,7 +682,7 @@ const Home = () => {
                   <span className="text-xl">{isDarkMode ? <FaSun /> : <FaMoon />}</span>
                   <span className="font-medium">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </>
