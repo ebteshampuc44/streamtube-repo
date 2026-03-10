@@ -380,13 +380,13 @@ const Home = () => {
               </button>
             )}
 
-            {/* লোগো - মোবাইলে সেন্টার */}
+            {/* লোগো - মোবাইলে সেন্টার
             <div className={`flex items-center ${isMobile ? 'flex-1 justify-center' : ''}`}>
               <Link to="/" className="flex items-center">
                 <span className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>stream</span>
                 <span className="text-xl font-bold text-red-600">tube</span>
               </Link>
-            </div>
+            </div> */}
 
             {/* সার্চ বার - ডেস্কটপ */}
             {!isMobile && (
