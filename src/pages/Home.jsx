@@ -210,7 +210,6 @@ const Home = () => {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [trendingIndex, setTrendingIndex] = useState(0);
@@ -218,20 +217,6 @@ const Home = () => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   const scrollContainerRef = useRef(null);
-  const menuRef = useRef(null);
-  const menuButtonRef = useRef(null);
-
-  // মেনু বাইরে ক্লিক
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target) &&
-        menuButtonRef.current && !menuButtonRef.current.contains(event.target)) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   const categories = [
     { id: "all", label: "All", icon: <SVGIcons.All className="w-5 h-5" /> },
@@ -283,22 +268,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [isHoveringHero, heroVideos.length]);
 
-  const menuPanelStyle = {
-    position: 'fixed', top: 0, left: 0, height: '100%', width: '280px',
-    backgroundColor: isDarkMode ? '#111' : '#ffffff',
-    boxShadow: '0 10px 40px rgba(0,0,0,0.2)', zIndex: 100,
-    transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-100%)',
-    transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)', overflowY: 'auto'
-  };
-
-  const backdropStyle = {
-    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 90,
-    opacity: isMobileMenuOpen ? 1 : 0,
-    visibility: isMobileMenuOpen ? 'visible' : 'hidden',
-    transition: 'opacity 0.3s ease, visibility 0.3s ease'
-  };
-
   const currentHero = heroVideos[trendingIndex];
 
   // ভিডিও কার্ড কম্পোনেন্ট
@@ -339,32 +308,17 @@ const Home = () => {
         {/* হোম হেডার - ডেস্কটপ ও মোবাইলের জন্য */}
         <div className={`sticky top-0 z-20 ${isDarkMode ? 'bg-[#0f0f0f]/80 backdrop-blur-sm' : 'bg-white/80 backdrop-blur-sm'} border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} px-4 py-3`}>
           <div className="max-w-[1600px] mx-auto flex items-center justify-between">
-            {/* মোবাইল মেনু বাটন */}
-            {isMobile && (
-              <button
-                ref={menuButtonRef}
-                onClick={() => setIsMobileMenuOpen(true)}
-                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
-              >
-                <FaBars size={20} />
-              </button>
-            )}
-
-            {/* লোগো - মোবাইলে সেন্টার
-            <div className={`flex items-center ${isMobile ? 'flex-1 justify-center' : ''}`}>
+            {/* লোগো - বাম পাশে */}
+            {/* <div className="flex items-center">
               <Link to="/" className="flex items-center">
                 <span className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>stream</span>
                 <span className="text-xl font-bold text-red-600">tube</span>
               </Link>
             </div> */}
 
-
-
             {/* ডান পাশের বাটন */}
             <div className="flex items-center gap-2">
-
-              
-              {/* থিম টগল */}
+              {/* থিম টগল - কমেন্ট করা আছে */}
               {/* <button
                 onClick={toggleTheme}
                 className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
@@ -373,11 +327,9 @@ const Home = () => {
               </button> */}
             </div>
           </div>
-
-
         </div>
         
-        {/* মেইন কন্টেন্ট - মোবাইলের জন্য হেডার ছাড়া */}
+        {/* মেইন কন্টেন্ট */}
         <div className="max-w-[1600px] mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-6">
 
           {/* ───── নরমাল কন্টেন্ট ───── */}
@@ -627,66 +579,6 @@ const Home = () => {
 
         </div>
       </div>
-
-      {/* মোবাইল সাইড মেনু */}
-      {isMobile && (
-        <>
-          <div style={backdropStyle} onClick={() => setIsMobileMenuOpen(false)} />
-          <div ref={menuRef} style={menuPanelStyle}>
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <Link to="/" className="flex items-center">
-                  <span className="text-xl font-bold">
-                    <span className={isDarkMode ? 'text-white' : 'text-gray-900'}>stream</span>
-                    <span className="text-red-600">tube</span>
-                  </span>
-                </Link>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}
-                >
-                  <FaTimes size={18} />
-                </button>
-              </div>
-              <div className="space-y-4">
-                {sidebarItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    to={item.path}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-4 p-3 rounded-lg transition-colors ${
-                      item.path === '/'
-                        ? 'bg-red-600 text-white'
-                        : isDarkMode
-                          ? 'text-gray-300 hover:bg-gray-800'
-                          : 'text-gray-700 hover:bg-gray-100'
-                    }`}
-                  >
-                    <span className="text-xl">{item.icon}</span>
-                    <span className="font-medium">{item.label}</span>
-                  </Link>
-                ))}
-              </div>
-              
-              {/* মোবাইলে থিম টগল */}
-              {/* <div className="mt-8 pt-6 border-t border-gray-700">
-                <button
-                  onClick={() => {
-                    toggleTheme();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-4 p-3 rounded-lg ${
-                    isDarkMode ? 'text-gray-300 hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  <span className="text-xl">{isDarkMode ? <FaSun /> : <FaMoon />}</span>
-                  <span className="font-medium">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
-                </button>
-              </div> */}
-            </div>
-          </div>
-        </>
-      )}
 
       <style>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
